@@ -5,22 +5,22 @@ description: "Use only for Story-class code changes to clarify requirements, com
 
 # Brainstorming Ideas Into Designs
 
-> 版本: v2.2 (2026-11-13). 变更内容见文末版本记录.
+> 版本: v2.3 (2026-11-13). 变更内容见文末版本记录.
 
 Help turn Story-class changes into fully formed designs and confirmed specs through natural collaborative dialogue.
 
 ## 沟通与文档格式
 
-> 适用于 Bug、Task、Story 全流程，hydrogen-brainstorming、hydrogen-writing-plans、hydrogen-coding 三个 skill 保持同一套规则。
+> 适用于 Bug、Task、Story 全流程，hydrogen-brainstorming、hydrogen-task-plans、hydrogen-coding 三个 skill 保持同一套规则。
 
-### 1. 日常协作与写作依赖
+### 1. 日常协作与输出规范
 
-1. 首行说明下一步动作.
+1. 需要行动时首行说明下一步动作; 日常问答先直接回答问题, 交付时先说明结果.
 2. 多步操作使用编号, 一项说明一个动作.
 3. 阶段切换时简短说明当前进度.
 4. 需要确认时集中列出真正待确认的事项, 沿用已有确认, 不重复询问.
 
-撰写或修改文档时先读取 `hydrogen-writing` 的 SKILL.md, 已在当前上下文加载时直接复用. 用它优化结构, 表达和可读性, 保留事实, 限制与作者意图. 日常短回复不机械执行完整写作流程. 用户的明确要求优先; 本模块规定的阶段确认, 文档结构, 英文半角标点及准确性要求继续适用. 写作优化不改变业务结论, 不补造缺失事实, 不跳过已规定的审核阶段.
+面向用户输出时遵循 `hydrogen-output`, 当前上下文未加载时先读取其 SKILL.md. 按文档, 日常回复, 进度汇报或交付说明选择输出方式; 短回复直接回答, 不展开长文档流程. 保留事实, 限制和作者意图. 用户明确要求优先; 本模块的阶段确认, 业务契约及正式文档格式继续适用. 输出优化不替代实施或验证, 不跳过审核阶段. 正式文档的章节模板不强加给日常回复和简短进度消息.
 
 ### 2. 文档格式
 
@@ -99,7 +99,7 @@ product dependencies, or creating an external project, the human partner
 must review and approve the written spec and then review and approve the
 written implementation plan. Conversational design approval only permits
 writing the spec; written-spec approval only permits invoking
-hydrogen-writing-plans; plan approval permits task-by-task execution through
+hydrogen-task-plans; plan approval permits task-by-task execution through
 hydrogen-coding.
 
 A reply approves the stage actually presented. Approval of an idea or
@@ -144,7 +144,7 @@ allowed while those prerequisites remain incomplete.
 5. **Write design doc** — save to `设计文档/<需求名称>/YYYY-MM-DD-<topic>-design.md` under the workspace root, formatted per「沟通与文档格式」第 2 小节; do not commit it
 6. **Spec self-review** — quick inline check for placeholders, contradictions, ambiguity, scope, format (see below)
 7. **User reviews written spec** — ask user to review the spec file before proceeding
-8. **Transition to implementation** — invoke hydrogen-writing-plans to create the implementation plan
+8. **Transition to implementation** — invoke hydrogen-task-plans to create the implementation plan
 
 ## Process Flow
 
@@ -161,7 +161,7 @@ digraph brainstorming {
     "Write design doc" [shape=box];
     "Spec self-review\n(fix inline)" [shape=box];
     "User reviews spec?" [shape=diamond];
-    "Invoke hydrogen-writing-plans" [shape=doublecircle];
+    "Invoke hydrogen-task-plans" [shape=doublecircle];
 
     "Classify: Bug / Task / Story" -> "Use normal Bug or Task workflow" [label="Bug / Task"];
     "Classify: Bug / Task / Story" -> "Explore project context" [label="Story"];
@@ -176,12 +176,12 @@ digraph brainstorming {
     "Write design doc" -> "Spec self-review\n(fix inline)";
     "Spec self-review\n(fix inline)" -> "User reviews spec?";
     "User reviews spec?" -> "Write design doc" [label="changes requested"];
-    "User reviews spec?" -> "Invoke hydrogen-writing-plans" [label="approved"];
+    "User reviews spec?" -> "Invoke hydrogen-task-plans" [label="approved"];
 }
 ```
 
 For a Story, the only next skill after hydrogen-brainstorming is
-hydrogen-writing-plans.
+hydrogen-task-plans.
 Do not invoke an implementation skill until the user has reviewed and
 approved the plan.
 
@@ -264,10 +264,13 @@ Wait for the user's response. If they request changes, make them and re-run the 
 
 **Implementation:**
 
-- Invoke hydrogen-writing-plans to create a detailed implementation plan.
-- Do not invoke any other skill. hydrogen-writing-plans is the next step.
+- Invoke hydrogen-task-plans to create a detailed implementation plan.
+- Do not invoke any other skill. hydrogen-task-plans is the next step.
 
 ## 版本记录
+
+- v2.3 (2026-11-13): 计划模块命名为 hydrogen-task-plans, 输出模块命名为 hydrogen-output, 统一文档及日常沟通表达, 按输出类型区分处理深度.
+
 
 - v2.2 (2026-11-13): 写作依赖替换为 hydrogen-writing, 内置四条日常协作规则, 保留原有确认流程与文档约定.
 
