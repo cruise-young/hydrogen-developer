@@ -5,7 +5,7 @@ description: "Use only for Story-class code changes to clarify requirements, com
 
 # Brainstorming Ideas Into Designs
 
-> 版本: v2.3 (2026-11-13). 变更内容见文末版本记录.
+> 版本: v2.4 (2026-11-18). 变更内容见文末版本记录.
 
 Help turn Story-class changes into fully formed designs and confirmed specs through natural collaborative dialogue.
 
@@ -24,13 +24,26 @@ Help turn Story-class changes into fully formed designs and confirmed specs thro
 
 ### 2. 文档格式
 
-适用于 spec、实施计划、改造点清单、交付说明及本流程产出的其他 Markdown 文档。
+以下约定用于书面 Story spec. 实施计划的结构见 [实施计划模板](../hydrogen-task-plans/SKILL.md#默认文档结构).
 
-1. **先做总结**：文档标题和元信息之后，第一节为 `## 1. 总结`，3～5 条编号要点，依次写目标、关键结论或决策、当前状态、下一步、待确认事项数量。读者只看总结就能知道做什么、做到哪、下一步是什么。
+1. 标题下标明当前状态. 正文按下表的四节组织. 在受影响的例子旁标出待确认的问题及其影响.
 2. **标题编号**：除文档标题 `#` 外，所有标题带层级序号：`## 1.`、`### 1.1`、`#### 1.1.1`；序号连续，不跳号。
 3. **正文编号**：步骤、规则、要点、待确认项使用有序列表 `1.`、`2.`；表格首列为序号列 `#`；只有不可再分的并列短语可用无序列表。
 4. **清晰简洁**：一条只说一件事；不写铺垫和复述；同一事实只在一处定义，其他位置用“见 3.2”引用。
 5. **完整一致**：术语、类名、字段名、接口路径、错误码全文一致；改动章节后同步更新所有“见 X.Y”引用、文档互链和索引；不留 TBD 或无归属的待办。
+
+### Story spec 正文
+
+| # | 章节标题 | 写作要求 |
+| --- | --- | --- |
+| 1 | `## 1. 需求背景与目标` | 用业务语言写清谁在什么场景遇到什么问题, 现在发生什么, 完成后希望发生什么. 界面或操作难以描述时, 在问题旁放现状截图并圈出相关位置. 有设计稿时可和预期效果并排. |
+| 2 | `## 2. 输入与预期输出` | 给一个具体例子, 写出初始状态, 操作或输入, 可观察的返回结果或数据变化. 容易混淆的规则配一个能区分两种理解的反例. 界面变化可并排展示前后状态, 后台处理可配简短的流程图或状态图. |
+| 3 | `## 3. 设计规格` | 解释哪些业务规则决定第 2 节的结果, 由哪个现有模块负责, 本次如何调整. 说明实际影响行为的契约, 失败语义及关键取舍. 方法级改造点留给实施计划. |
+| 4 | `## 4. 验收标准` | 引用第 2 节的例子, 写清执行哪个动作, 查看哪个结果, 满足什么条件即通过. 按实际风险覆盖边界和原有行为. |
+
+配图按需选用. 优先使用可访问的真实截图或已有设计稿, 自绘的原型或简图标为示意. 把图放在对应场景旁, 配一句图注点出要看哪里. 关键数值, 状态及通过条件同时用文字写明. 文字已经清楚时直接用文字.
+
+例如订单列表每页一条, A 和 B 待发货, C 已发货. 筛选待发货并导出, 预期是 A 和 B 各一条. 如有列表截图和导出结果图, 图注可写为 "分页只影响列表显示, 导出覆盖全部匹配订单". 验收时引用这个例子, 核对文件的订单号和条数.
 
 ## 文档路径规则（所有项目）
 
@@ -139,7 +152,7 @@ allowed while those prerequisites remain incomplete.
 
 1. **Explore project context** — check files, docs, recent commits
 2. **Align requirements** - follow the requirement-alignment section above: identify relevant rules and gaps, ask one focused question at a time, and verify concrete input/output examples.
-3. **Propose 2-3 approaches** - after the business understanding is confirmed, compare trade-offs and give your recommendation without treating it as approval.
+3. **Compare viable approaches** - once the business understanding is confirmed, explain which approach fits the constraints and compare meaningful alternatives. The recommendation still requires review.
 4. **Present design** — in sections scaled to their complexity, get user approval after each section
 5. **Write design doc** — save to `设计文档/<需求名称>/YYYY-MM-DD-<topic>-design.md` under the workspace root, formatted per「沟通与文档格式」第 2 小节; do not commit it
 6. **Spec self-review** — quick inline check for placeholders, contradictions, ambiguity, scope, format (see below)
@@ -155,7 +168,7 @@ digraph brainstorming {
     "Explore project context" [shape=box];
     "Ask clarifying questions" [shape=box];
     "Requirements confirmed?" [shape=diamond];
-    "Propose 2-3 approaches" [shape=box];
+    "Compare viable approaches" [shape=box];
     "Present design sections" [shape=box];
     "User approves design?" [shape=diamond];
     "Write design doc" [shape=box];
@@ -168,8 +181,8 @@ digraph brainstorming {
     "Explore project context" -> "Ask clarifying questions";
     "Ask clarifying questions" -> "Requirements confirmed?";
     "Requirements confirmed?" -> "Ask clarifying questions" [label="unresolved business rules or corrections"];
-    "Requirements confirmed?" -> "Propose 2-3 approaches" [label="confirmed, including earlier explicit confirmation"];
-    "Propose 2-3 approaches" -> "Present design sections";
+    "Requirements confirmed?" -> "Compare viable approaches" [label="confirmed, including earlier explicit confirmation"];
+    "Compare viable approaches" -> "Present design sections";
     "Present design sections" -> "User approves design?";
     "User approves design?" -> "Present design sections" [label="no, revise"];
     "User approves design?" -> "Write design doc" [label="yes"];
@@ -205,17 +218,16 @@ The subsections below apply to the Story path.
 
 同时遵循 hydrogen-coding 的 "设计阶段兼顾性能与复杂度". 结合实际规模和关键路径成本比较方案, 将性能收益与一致性, 资源及维护代价一起考虑, 优先选择足够简单的方案. 不等到实施后才考虑明显瓶颈, 也不为假设中的未来规模引入额外机制.
 
-- Propose 2-3 different approaches with trade-offs, numbered
-- Present options conversationally with your recommendation and reasoning
-- Lead with your recommended option and explain why
+- Start with the simplest approach that meets the confirmed requirements and explain why it fits.
+- When another viable option changes behavior, reliability or maintenance cost, compare that trade-off. If only one approach fits, briefly identify the constraint that determines the choice.
 - YAGNI ruthlessly - remove unnecessary features from every approach and design
 
 **Presenting the design:**
 
 - Once you believe you understand what you're building, present the design
 - Scale each section to its complexity: a few sentences if straightforward, up to 200-300 words if nuanced
-- Number each section and restate progress (e.g. "第 2/5 节"); ask after each section whether it looks right so far
-- Cover: architecture, components, data flow, error handling, testing
+- Number each section and restate progress (e.g. "第 2 节, 输入与预期输出"); ask after each section whether it looks right so far
+- Start with the business example, then cover the relevant design decisions and how the reader can verify the outcome.
 - Be ready to go back and clarify if something doesn't make sense
 
 **Design for isolation and clarity:**
@@ -237,7 +249,7 @@ The subsections below apply to the Story path.
 
 - Write the validated design (spec) to `设计文档/<需求名称>/YYYY-MM-DD-<topic>-design.md` under the workspace root
   - (User preferences for spec location override this default)
-- Format per「沟通与文档格式」第 2 小节: `## 1. 总结` first (goal, key decisions, status, next step, number of open questions), then numbered sections and numbered body text
+- 按上文 [Story spec 正文](#story-spec-正文) 的四节写作. 已有需求以原文件和最新确认的例子为准.
 - Use elements-of-style:writing-clearly-and-concisely skill if available
 - Do not commit the design document. The human partner reviews and commits all artifacts and code.
 
@@ -251,14 +263,14 @@ After writing the spec document, look at it with fresh eyes:
 3. **Scope check:** Is this focused enough for a single implementation plan, or does it need decomposition?
 4. **Ambiguity check:** Could a requirement change business behavior or acceptance results depending on interpretation? Return that gap to the user with a concrete example. Do not silently pick an interpretation. Preserve earlier confirmed decisions and any explicit delegation to choose.
 5. **hydrogen-coding 规则检查：** spec 中新增的类名是否以 `Req` / `Resp` 结尾、存量类是否保留原名；是否优先复用现有能力、符合项目分层约束（新增 Mapper 经由 Repository 接口访问）；是否列出异常类型；有无与 hydrogen-coding 冲突的设计。发现即改。
-6. **文档格式检查：** 首节为 `## 1. 总结`；所有标题与正文编号连续；“见 X.Y”引用有效；术语、类名、接口路径、错误码全文一致。发现即改。
+6. **可读性与验收检查.** 只读前两节, 能否从例子预测结果? 第 4 节能否据此判断通过或失败? 如有图, 核对图片可打开, 图注及文字条件与例子一致. 最后核对章节和引用.
 
 Fix wording, formatting, and inconsistencies with confirmed rules inline. An unresolved business decision requires clarification and an updated understanding, not an invented rule. Recheck affected examples and spec sections before moving on.
 
 **User Review Gate:**
 After the spec review loop passes, ask the user to review the written spec before proceeding, next action first:
 
-> "下一步：review `<path>` 的 `1. 总结`（约 5 分钟），再看正文。待确认：1. … 2. … 确认后我开始写实施计划。"
+> "请先看需求背景和输入输出例子是否符合预期, 再核对设计与验收条件. 确认这份 spec 后进入实施计划."
 
 Wait for the user's response. If they request changes, make them and re-run the spec review loop. Only proceed once the user approves.
 
@@ -268,6 +280,8 @@ Wait for the user's response. If they request changes, make them and re-run the 
 - Do not invoke any other skill. hydrogen-task-plans is the next step.
 
 ## 版本记录
+
+- v2.4 (2026-11-18): Story spec 先说明背景及输入输出, 再写设计与验收. 前两节按需就近配图.
 
 - v2.3 (2026-11-13): 计划模块命名为 hydrogen-task-plans, 输出模块命名为 hydrogen-output, 统一文档及日常沟通表达, 按输出类型区分处理深度.
 

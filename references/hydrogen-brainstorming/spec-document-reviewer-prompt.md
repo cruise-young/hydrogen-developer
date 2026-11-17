@@ -4,7 +4,7 @@ Use this template when dispatching a spec document reviewer subagent.
 
 **Purpose:** Verify the spec is complete, consistent, and ready for implementation planning.
 
-**Dispatch after:** Spec document is written to docs/superpowers/specs/
+**Dispatch after** the written Story spec is available in the project's design directory (normally `设计文档/<需求名称>/`).
 
 ```
 Subagent (general-purpose):
@@ -19,8 +19,8 @@ Subagent (general-purpose):
     | Category | What to Look For |
     |----------|------------------|
     | Completeness | TODOs, placeholders, "TBD", incomplete sections |
-    | Consistency | Internal contradictions, conflicting requirements |
-    | Clarity | Requirements ambiguous enough to cause someone to build the wrong thing |
+    | Consistency | Do the design rules and observable acceptance criteria agree with the example, including any important boundary case? |
+    | Clarity | Can a reader predict the outcome from the background and input/output example alone? When a visual is present, does its caption agree with the written conditions? |
     | Scope | Focused enough for a single plan — not covering multiple independent subsystems |
     | YAGNI | Unrequested features, over-engineering |
 

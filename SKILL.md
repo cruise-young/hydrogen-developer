@@ -5,7 +5,7 @@ description: 按 Hydrogen 规范处理代码变更，区分 Bug、Task、Story�
 
 # Hydrogen Developer
 
-> 版本: v2.3 (2026-11-13).
+> 版本: v2.8 (2026-11-18).
 
 本套件将 hydrogen-brainstorming、hydrogen-task-plans、hydrogen-coding 合并分发，保留各模块原始规则和附属文件。所有相对路径均相对于本文件所在目录。
 
